@@ -1,9 +1,9 @@
-import { swagger } from "@models/swagger/swagger";
-import { swaggerMethod } from "@models/swagger/swaggermethod";
-import { swaggerPath } from "@models/swagger/swaggerpath";
 import Router, { Request, Response } from "express";
 import JWT from "jsonwebtoken";
 import { JWTPayload } from "../models/jwtpayload.model";
+import { swagger } from "../models/swagger/swagger.model";
+import { swaggerMethod } from "../models/swagger/swaggermethod.model";
+import { swaggerPath } from "../models/swagger/swaggerpath.model";
 require("dotenv").config();
 
 export const appRouter = Router();
@@ -141,6 +141,16 @@ function routable(options: IOptions) {
                 }
 
                 jwt = new JWTPayload(JWT.decode(encodedJwt));
+            } else if (
+                headers.authorization &&
+                headers.authorization
+                    .split(" ")[0]
+                    .trim()
+                    .toLocaleLowerCase() === "bearer"
+            ) {
+                jwt = new JWTPayload(
+                    JWT.decode(headers.authorization.split(" ")[1])
+                );
             }
 
             origFunc(request, response, jwt);

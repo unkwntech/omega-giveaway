@@ -2,8 +2,6 @@ namespace NodeJS {
     export interface ProcessEnv {
         DEFAULT_QUERY_LIMIT: string;
         LOG_LEVEL: string;
-        DB_CONN_STRING: string;
-        DB_NAME: string;
         BACKEND_PORT: string;
         SSL_CERT: string;
         SSL_PKEY: string;
@@ -15,5 +13,10 @@ namespace NodeJS {
         SWAG_VERSION: string;
         SWAG_HOST: string;
         SWAG_BASE_PATH: string;
+        ESI_SECRET: string;
+        ESI_CLIENTID: string;
+        ESI_REDIRECT: string;
+        MONGO_HOST: string;
+        MONGO_DBNAME: string;
     }
 }

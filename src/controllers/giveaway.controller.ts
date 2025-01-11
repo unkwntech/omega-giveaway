@@ -1,18 +1,8 @@
-import { JWTPayload } from "@models/jwtpayload";
 import { Request, Response } from "express";
 import routable from "../decorators/routable.decorator";
+import { JWTPayload } from "../models/jwtpayload.model";
 
 export default class GiveawayController {
-    // @routable({
-    //     path: "/giveaway/validate/:code",
-    //     method: "get",
-    //     swagger: {
-    //         tags: ["giveaway"],
-    //         summary: "Validate that a code is valid.",
-    //     },
-    // })
-    // public ValidateCode() {}
-
     public static usedCodes: string[] = [];
 
     @routable({
@@ -29,7 +19,7 @@ export default class GiveawayController {
             { id: 17920, name: "Bhaalgorn", qty: 1 },
             { id: 44992, name: "PLEX", qty: 500 },
             { id: 44992, name: "PLEX", qty: 69 },
-            { id: 40520, name: "VINDICATOR", qty: 1 },
+            { id: 40520, name: "Large Skill Injector", qty: 1 },
         ];
 
         console.log(req.params);
