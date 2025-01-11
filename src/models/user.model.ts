@@ -4,6 +4,7 @@ import Deletable from "./deletable.model";
 import { Factory } from "./factory";
 import { Identifiable } from "./identifiable";
 import Interest from "./interests.model";
+import Prize from "./prize.model";
 
 export default class User implements Identifiable, Deletable, Auditable {
     public id: string;
@@ -15,6 +16,8 @@ export default class User implements Identifiable, Deletable, Auditable {
     public deleted: boolean;
 
     public isSuperAdmin: boolean;
+
+    public prizes: Prize[];
 
     public constructor(json: any) {
         if (json.id === undefined) throw new Error("id is required for User");
@@ -35,6 +38,9 @@ export default class User implements Identifiable, Deletable, Auditable {
 
         if (json.isSuperAdmin === undefined) this.isSuperAdmin = false;
         else this.isSuperAdmin = json.isSuperAdmin;
+
+        if (json.prizes === undefined) this.prizes = [];
+        else this.prizes = json.prizes;
     }
 
     public static make(
