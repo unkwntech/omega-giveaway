@@ -1,5 +1,6 @@
 import bodyParser from "body-parser";
 import express, { Request, Response } from "express";
+import session from "express-session";
 import fs from "fs";
 import https from "https";
 import swaggerUI, { SwaggerOptions } from "swagger-ui-express";
@@ -13,6 +14,9 @@ const app = express();
 //Increase maximum 'upload' limits to 50mb, should be overkill.
 app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 app.use(bodyParser.json({ limit: "50mb" }));
+app.use(
+    session({ secret: process.env.SESSION_SECRET, cookie: { maxAge: 300 } })
+);
 
 //set cors policy to allow any source to access the api
 const cors = require("cors");

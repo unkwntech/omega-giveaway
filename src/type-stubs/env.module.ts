@@ -3,6 +3,7 @@ namespace NodeJS {
         DEFAULT_QUERY_LIMIT: string;
         LOG_LEVEL: string;
         BACKEND_PORT: string;
+        SESSION_SECRET: string;
         SSL_CERT: string;
         SSL_PKEY: string;
         SSL_ENABLED: string;

@@ -24,6 +24,17 @@ export default class OAuthController {
         },
     })
     public oAuthLogin(req: Request, res: Response, jwt: JWTPayload) {
+        let redirect = "";
+        if (req.query.redirect === undefined) {
+            res.sendStatus(400);
+            return;
+        }
+        if (Array.isArray(req.query.redirect))
+            redirect = req.query.redirect[0].toString();
+        else redirect = req.query.redirect.toString();
+
+        req.session.redirect = redirect;
+
         //redirect to ccp
         res.redirect(
             `https://login.eveonline.com/v2/oauth/authorize/?response_type=code&client_id=${
@@ -276,13 +287,9 @@ export default class OAuthController {
             return;
         }
 
-        res.status(200).send({
-            jwt: newJWT,
-            user: {
-                fullName: mainChar.name,
-                avatar: `https://images.evetech.net/characters/${mainChar.id}/portrait?size=128`,
-                ...user,
-            },
-        });
+        if (!req.session.redirect) {
+            res.status(200).send(newJWT);
+        }
+        res.status(302).send(`${req.session.redirect}?jwt=${newJWT}`);
     }
 }

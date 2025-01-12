@@ -3,3 +3,5 @@
 dist/
 certs/
 node_modules/
+
+*.pem
