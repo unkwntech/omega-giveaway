@@ -35,6 +35,8 @@ export default class OAuthController {
 
         req.session.redirect = redirect;
 
+        console.log;
+
         //redirect to ccp
         res.redirect(
             `https://login.eveonline.com/v2/oauth/authorize/?response_type=code&client_id=${
@@ -289,6 +291,7 @@ export default class OAuthController {
 
         if (!req.session.redirect) {
             res.status(200).send(newJWT);
+            return;
         }
         res.status(302).send(`${req.session.redirect}?jwt=${newJWT}`);
     }
