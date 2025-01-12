@@ -15,7 +15,7 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(
-    session({ secret: process.env.SESSION_SECRET, cookie: { maxAge: 300 } })
+    session({ secret: process.env.SESSION_SECRET, cookie: { maxAge: 300000 } })
 );
 
 //set cors policy to allow any source to access the api
