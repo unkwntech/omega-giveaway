@@ -293,6 +293,6 @@ export default class OAuthController {
             res.status(200).send(newJWT);
             return;
         }
-        res.status(302).send(`${req.session.redirect}?jwt=${newJWT}`);
+        res.redirect(`${req.session.redirect}?jwt=${newJWT}`);
     }
 }
