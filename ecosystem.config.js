@@ -18,7 +18,7 @@ module.exports = {
             host: "ibns.tech",
             key: "deploy.key",
             ref: "origin/main",
-            repo: "git@github.com:unkwntech/omega-giveaway.git",
+            repo: "https://github.com/unkwntech/omega-giveaway.git",
             path: "/var/projects/omega-giveaway-backend-prod/",
             "post-deploy":
                 "npm i && tsc -b && pm2 reload ecosystem.config.js --env production && pm2 save",
