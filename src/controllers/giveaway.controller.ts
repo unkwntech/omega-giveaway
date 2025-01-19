@@ -1,6 +1,10 @@
 import { Request, Response } from "express";
 import routable from "../decorators/routable.decorator";
+import { ObjectNotFoundError } from "../errors";
 import { JWTPayload } from "../models/jwtpayload.model";
+import Prize from "../models/prize.model";
+import User from "../models/user.model";
+import { DbUtilities as DB } from "../utilities/db-utilities";
 
 export default class GiveawayController {
     public static usedCodes: string[] = [];
@@ -13,27 +17,38 @@ export default class GiveawayController {
             summary: "Get result of code giveaway.",
         },
     })
-    public GetGiveawayResult(req: Request, res: Response, jwt: JWTPayload) {
-        const prizes = [
-            { id: 17740, name: "Vindicator", qty: 1 },
-            { id: 17920, name: "Bhaalgorn", qty: 1 },
-            { id: 44992, name: "PLEX", qty: 500 },
-            { id: 44992, name: "PLEX", qty: 69 },
-            { id: 40520, name: "Large Skill Injector", qty: 1 },
-        ];
+    public async GetGiveawayResult(
+        req: Request,
+        res: Response,
+        jwt: JWTPayload
+    ) {
+        DB.Get(req.params.code, Prize.getFactory())
+            .then((prize: Prize) => {
+                if (prize.claimed) {
+                    res.status(406).send("Already Claimed");
+                    return;
+                }
+                DB.Get(jwt.sub, User.getFactory())
+                    .then((user: User) => {
+                        prize.claimed = true;
+                        user.prizes.push(prize);
+                        DB.Update(user, User.getFactory());
+                        DB.Update(prize, Prize.getFactory());
+                        res.status(202).send(prize);
+                    })
+                    .catch((e) => {
+                        res.sendStatus(500);
+                        console.error(e);
+                    });
+            })
+            .catch((e) => {
+                if (e instanceof ObjectNotFoundError) {
+                    res.sendStatus(404);
+                    return;
+                }
 
-        console.log(req.params);
-
-        if (GiveawayController.usedCodes.includes(req.params.code)) {
-            console.log(req.params.code, GiveawayController.usedCodes);
-            res.sendStatus(406); //Not Acceptable
-            return;
-        }
-
-        GiveawayController.usedCodes.push(req.params.code);
-        const random = (min: number, max: number) => {
-            return Math.floor(Math.random() * (max - min + 1) + min);
-        };
-        res.send({ prize: prizes[random(0, prizes.length - 1)] });
+                res.sendStatus(500);
+                console.error(e);
+            });
     }
 }
