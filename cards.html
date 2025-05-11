@@ -1,0 +1,423 @@
+<html>
+    <head>
+        <title></title>
+        <style>
+            @media print {
+                .hideme {
+                    opacity: 0% !important;
+                }
+            }
+            body,
+            html {
+                padding: 0;
+                margin: 0;
+                font-family: Arial, Helvetica, sans-serif;
+            }
+            table {
+                width: 100%;
+                color: rgb(0, 0, 0);
+            }
+            tr {
+                height: 50mm;
+            }
+            td {
+                /* background-color: rgb(206, 0, 0); */
+                position: relative;
+                width: 80mm;
+                min-width: 80mm;
+            }
+            .front img {
+                width: 100%;
+                /* width: 88mm; */
+                height: 60mm;
+            }
+            .hideme {
+                width: 100%;
+                /* width: 88mm; */
+                height: 60mm;
+                opacity: 10%;
+            }
+            .qrcode {
+                width: 45mm;
+                position: absolute;
+                top: 10px;
+                left: 10px;
+            }
+            .back {
+                padding: 0;
+                margin: 0;
+                border: none;
+            }
+            .page {
+                page-break-before: always;
+                width: 216mm;
+                height: 280mm;
+                /* background-color: green; */
+                display: inline-block;
+                padding: 6mm;
+            }
+            .small {
+                width: 50px;
+                position: relative;
+                top: -220px;
+                padding-left: 65px;
+                left: 140px;
+            }
+            .scantext {
+                position: absolute;
+                top: 85px;
+                width: 180;
+                left: 200px;
+                float: right;
+                margin: 0;
+                padding: 0;
+                font-size: 1.2em;
+                font-weight: bold;
+            }
+            .url {
+                line-height: 2em;
+                display: inline-block;
+                position: absolute;
+                top: 190px;
+                left: 80px;
+            }
+            .code {
+                font-size: 2.5em;
+                font-family: monospace !important;
+            }
+            .help {
+                height: 226.77px;
+            }
+        </style>
+    </head>
+    <body></body>
+
+    <script type="text/javascript">
+        const rowTemplate = `
+                <td>
+                    <div class="help">
+                        <img class="hideme" src=C:\\Users\\Arron\\Desktop\\card_front_black.jpg>
+                        <img
+                            src="C:\\Users\\Arron\\Desktop\\giveaway\\$CODE1$.png"
+                            class="qrcode"
+                        />
+                        <img
+                            src="C:\\Users\\Arron\\Desktop\\omega.png"
+                            class="small omega"
+                        />
+                        <img
+                            src="C:\\Users\\Arron\\Desktop\\FL33T_Icon_-_Filled2_mono.png"
+                            class="small fleet"
+                        />
+                        <p class="scantext">
+                            Scan the QR code or navigate to the link below to
+                            see what you've won!
+                        </p>
+                        <div class="url">
+                            http://vindi.best/<span class="code">$CODE1$</span>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="help">
+                        <img class="hideme" src=C:\\Users\\Arron\\Desktop\\card_front_black.jpg>
+                        <img
+                            src="C:\\Users\\Arron\\Desktop\\giveaway\\$CODE2$.png"
+                            class="qrcode"
+                        />
+                        <img
+                            src="C:\\Users\\Arron\\Desktop\\omega.png"
+                            class="small omega"
+                        />
+                        <img
+                            src="C:\\Users\\Arron\\Desktop\\FL33T_Icon_-_Filled2_mono.png"
+                            class="small fleet"
+                        />
+                        <p class="scantext">
+                            Scan the QR code or navigate to the link below to
+                            see what you've won!
+                        </p>
+                        <div class="url">
+                            http://vindi.best/<span class="code">$CODE2$</span>
+                        </div>
+                    </div>
+                </td>`;
+
+        (async function () {
+            let codes = [
+                { code: "LYYZ8X95", prize: "Vindicator" },
+                { code: "YYFJLA77", prize: "Vindicator" },
+                { code: "DBWQWOC3", prize: "Vindicator" },
+                { code: "DMK6I951", prize: "Vindicator" },
+                { code: "00JKDWF9", prize: "Vindicator" },
+                { code: "Q68BB3H8", prize: '"We Decide"' },
+                { code: "K5HFTRGX", prize: "Lunch" },
+                { code: "OVEL82YC", prize: "Drink" },
+                { code: "7U3MR1E6", prize: "Drink" },
+                { code: "0ABO4G3M", prize: "Drink" },
+                {
+                    code: "KP0KW6CF",
+                    prize: "Faction Warfare Destroyer Start Pack",
+                },
+                { code: "Y80SCPNQ", prize: "69x PLEX" },
+                { code: "BI8CYJM7", prize: "Moros" },
+                { code: "1INY6NV1", prize: "Large Skill Injector" },
+                { code: "5E1F613B", prize: "A Litter of Puppies!" },
+                { code: "EE7ATJTY", prize: "69x PLEX" },
+                { code: "9J4GLW0V", prize: "500x PLEX" },
+                {
+                    code: "18E1RZZO",
+                    prize: "Cyclone Fleet Issue FL33T Issue Skin",
+                },
+                {
+                    code: "8GK7M4P2",
+                    prize: "Faction Warfare Frigate Start Pack",
+                },
+                { code: "XLSCVGRP", prize: "Sin" },
+                { code: "GD7G4MLO", prize: "Bhaalgorn" },
+                {
+                    code: "NYXT8FIG",
+                    prize: "Federation Navy Comet Police SKIN",
+                },
+                { code: "JZKDMM1J", prize: "Party Pack!" },
+                { code: "ZRKHMBQK", prize: "Party Pack!" },
+                { code: "UVZ5PWUB", prize: "Party Pack!" },
+                { code: "GRC8FECI", prize: "69x PLEX" },
+                { code: "WQOC1O6Q", prize: "Build-A-Fort Kit" },
+                { code: "XUVB9KVL", prize: "Party Pack!" },
+                { code: "GVRW2R96", prize: "A New Puppy!" },
+                { code: "DNAT2UMK", prize: "A Litter of Puppies!" },
+                { code: "PA0N3MHD", prize: "A Litter of Puppies!" },
+                { code: "4FVBWAIT", prize: "Bhaalgorn" },
+                {
+                    code: "2WSIMMS3",
+                    prize: "Federation Navy Comet Police SKIN",
+                },
+                {
+                    code: "2BCQKLBJ",
+                    prize: "Federation Navy Comet Police SKIN",
+                },
+                { code: "TVG1WWGI", prize: "69x PLEX" },
+                { code: "MQNWLIQA", prize: "69x PLEX" },
+                { code: "APCGIBDA", prize: "Watermellon CFI Skin" },
+                {
+                    code: "86VYIFIY",
+                    prize: "Cyclone Fleet Issue FL33T Issue Skin",
+                },
+                {
+                    code: "A6FJ54PY",
+                    prize: "Cyclone Fleet Issue FL33T Issue Skin",
+                },
+                { code: "0998SOQG", prize: "Party Pack!" },
+                {
+                    code: "ZHO8Z0PU",
+                    prize: "Faction Warfare Destroyer Start Pack",
+                },
+                { code: "T5QNV6ZF", prize: "3x Quafe Zero" },
+                { code: "MX966Q16", prize: "Redeemer" },
+                { code: "4D3Y64XB", prize: "Large Skill Injector" },
+                { code: "2TDW4VVB", prize: "3x Quafe Green Apple" },
+                {
+                    code: "A8HG7GD7",
+                    prize: "Faction Warfare Frigate Start Pack",
+                },
+                {
+                    code: "TY6FBDKE",
+                    prize: "Faction Warfare Destroyer Start Pack",
+                },
+                {
+                    code: "KP5KOWI4",
+                    prize: "Federation Navy Comet Police SKIN",
+                },
+                {
+                    code: "BOJW7H9J",
+                    prize: "Faction Warfare Frigate Start Pack",
+                },
+                { code: "UYXUD6EN", prize: "500x PLEX" },
+                { code: "16IPC1DB", prize: "Party Pack!" },
+                { code: "QRXCYAVS", prize: "A Litter of Puppies!" },
+                { code: "CI64B3CF", prize: "Party Pack!" },
+                { code: "3H997G76", prize: "69x PLEX" },
+                { code: "OGKEC25J", prize: "69x PLEX" },
+                {
+                    code: "8E2MKO8P",
+                    prize: "Cyclone Fleet Issue FL33T Issue Skin",
+                },
+                {
+                    code: "FDK9PB3B",
+                    prize: "Faction Warfare Frigate Start Pack",
+                },
+                { code: "W4IVV2S6", prize: "Watermellon CFI Skin" },
+                { code: "9TH2OP2C", prize: "A New Puppy!" },
+                {
+                    code: "KHV1I8SL",
+                    prize: "Federation Navy Comet Police SKIN",
+                },
+                { code: "4KAHX5AX", prize: "A New Puppy!" },
+                { code: "WKC25MYK", prize: "3x Quafe Green Apple" },
+                {
+                    code: "AUQH1NPD",
+                    prize: "Faction Warfare Destroyer Start Pack",
+                },
+                { code: "PUDB1LES", prize: "Explorer Start Pack" },
+                { code: "6YCUQT25", prize: "A New Puppy!" },
+                { code: "TH8X9RF7", prize: "A New Puppy!" },
+                { code: "6XB5IE6F", prize: "Party Pack!" },
+                { code: "3HZNRIGL", prize: "Bhaalgorn" },
+                { code: "XCVPSJV1", prize: "Panther" },
+                {
+                    code: "VIRAFXII",
+                    prize: "Faction Warfare Destroyer Start Pack",
+                },
+                { code: "RX9MXZ6P", prize: "Minokawa" },
+                { code: "L76YUEOM", prize: "500x PLEX" },
+                {
+                    code: "4I7M6ULA",
+                    prize: "Faction Warfare Destroyer Start Pack",
+                },
+                { code: "VNQTH0N7", prize: "A New Puppy!" },
+                { code: "U1RWW3O9", prize: "Party Pack!" },
+                { code: "PR1ECAKN", prize: "Party Pack!" },
+                { code: "230A0I3T", prize: "Party Pack!" },
+                { code: "84U3WILH", prize: "Watermellon CFI Skin" },
+                { code: "D3R2O05M", prize: "Watermellon CFI Skin" },
+                {
+                    code: "UPJZVE4C",
+                    prize: "Faction Warfare Destroyer Start Pack",
+                },
+                { code: "YYXZ7Z3C", prize: "Large Skill Injector" },
+                { code: "UPASXA90", prize: "Sin" },
+                { code: "RIQN2TKB", prize: "Party Pack!" },
+                {
+                    code: "87TWR2NL",
+                    prize: "Cyclone Fleet Issue FL33T Issue Skin",
+                },
+                { code: "W06SPKAV", prize: "Build-A-Fort Kit" },
+                { code: "WM8F4B92", prize: "A New Puppy!" },
+                { code: "R2RRP7HH", prize: "Explorer Start Pack" },
+                {
+                    code: "FEXI1PXJ",
+                    prize: "Faction Warfare Frigate Start Pack",
+                },
+                { code: "Z72VH5X5", prize: "69x PLEX" },
+                { code: "A1PQLOJ9", prize: "A Litter of Puppies!" },
+                {
+                    code: "X3I1ZJJJ",
+                    prize: "Faction Warfare Frigate Start Pack",
+                },
+                { code: "TXC89LKN", prize: "3x Quafe Zero" },
+                { code: "6YNHVXKV", prize: "A New Puppy!" },
+                {
+                    code: "LUUDSEXG",
+                    prize: "Faction Warfare Frigate Start Pack",
+                },
+                { code: "PV3KWR7U", prize: "Large Skill Injector" },
+                { code: "F8R568RX", prize: "Build-A-Fort Kit" },
+                { code: "EDCFYFBG", prize: "Party Pack!" },
+                { code: "Q0YZ6FQR", prize: "Party Pack!" },
+                { code: "U1LD37C7", prize: "69x PLEX" },
+                {
+                    code: "RRFX2RI2",
+                    prize: "Federation Navy Comet Police SKIN",
+                },
+                {
+                    code: "KKPY7L2Z",
+                    prize: "Federation Navy Comet Police SKIN",
+                },
+                { code: "M9LNRGT8", prize: "69x PLEX" },
+                { code: "YJT8LVLX", prize: "Party Pack!" },
+                { code: "3W3XZDPL", prize: "Large Skill Injector" },
+                { code: "ABZFFF2V", prize: "Party Pack!" },
+                { code: "MN2EGCQA", prize: "A New Puppy!" },
+                { code: "OIGGO8ZU", prize: "Build-A-Fort Kit" },
+                { code: "AZPA42LP", prize: "3x Quafe Green Apple" },
+                { code: "J7ZBXB2S", prize: "Party Pack!" },
+                { code: "8FLLR10J", prize: "Widow" },
+                { code: "C7ZQTYX1", prize: "3x Quafe Zero" },
+                { code: "74O2976K", prize: "Party Pack!" },
+                {
+                    code: "MEJF9DMJ",
+                    prize: "Faction Warfare Destroyer Start Pack",
+                },
+                { code: "E9XUCJP0", prize: "A Litter of Puppies!" },
+                {
+                    code: "C26KSQMV",
+                    prize: "Faction Warfare Frigate Start Pack",
+                },
+                { code: "7LBC01C6", prize: "Watermellon CFI Skin" },
+                { code: "TTVPAPHO", prize: "A Litter of Puppies!" },
+                { code: "OB2VQH4H", prize: "A New Puppy!" },
+                {
+                    code: "ZXQMT8W0",
+                    prize: "Faction Warfare Frigate Start Pack",
+                },
+                { code: "74ZF28ZD", prize: "Widow" },
+                {
+                    code: "46DDBLP9",
+                    prize: "Federation Navy Comet Police SKIN",
+                },
+                {
+                    code: "6X1ZNFNM",
+                    prize: "Faction Warfare Destroyer Start Pack",
+                },
+                { code: "FS8Z9BJQ", prize: "Panther" },
+                { code: "LH03VKF7", prize: "Redeemer" },
+                { code: "25JJ86N5", prize: "A Litter of Puppies!" },
+                {
+                    code: "8PBZ3YEZ",
+                    prize: "Faction Warfare Destroyer Start Pack",
+                },
+                { code: "ZKTEUGMW", prize: "Party Pack!" },
+                {
+                    code: "DQ77KMAN",
+                    prize: "Federation Navy Comet Police SKIN",
+                },
+                {
+                    code: "K3JTKX6L",
+                    prize: "Federation Navy Comet Police SKIN",
+                },
+                { code: "E1RCL4QK", prize: "Party Pack!" },
+            ];
+
+            for (let i = 0; i < codes.length; ) {
+                if (i % 8 === 0) {
+                    //new page
+                    const d = document.createElement("div");
+                    d.className = "page";
+                    d.innerHTML = `<table class="front">
+                                <tr>
+                                    <td><img src=C:\\Users\\Arron\\Desktop\\card_front_black.jpg></td>
+                                    <td><img src=C:\\Users\\Arron\\Desktop\\card_front_black.jpg></td>
+                                </tr>
+                                <tr>
+                                    <td><img src=C:\\Users\\Arron\\Desktop\\card_front_black.jpg></td>
+                                    <td><img src=C:\\Users\\Arron\\Desktop\\card_front_black.jpg></td>
+                                </tr>
+                                <tr>
+                                    <td><img src=C:\\Users\\Arron\\Desktop\\card_front_black.jpg></td>
+                                    <td><img src=C:\\Users\\Arron\\Desktop\\card_front_black.jpg></td>
+                                </tr>
+                                <tr>
+                                    <td><img src=C:\\Users\\Arron\\Desktop\\card_front_black.jpg></td>
+                                    <td><img src=C:\\Users\\Arron\\Desktop\\card_front_black.jpg></td>
+                                </tr></table>`;
+
+                    document.getElementsByTagName("body")[0].appendChild(d);
+                    //insert new back
+                    const f = document.createElement("div");
+                    f.className = "page";
+                    f.innerHTML = `<table class="back"></table>`;
+                    document.getElementsByTagName("body")[0].appendChild(f);
+                }
+                const tables = document.getElementsByTagName("table");
+                const targetTable = tables[tables.length - 1];
+                const row = document.createElement("tr");
+                row.innerHTML = rowTemplate
+                    .replaceAll("$CODE1$", codes[i].code)
+                    .replaceAll("$CODE2$", codes[i + 1].code);
+                targetTable.appendChild(row);
+                i += 2;
+            }
+        })();
+    </script>
+</html>

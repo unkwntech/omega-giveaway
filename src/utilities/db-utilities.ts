@@ -36,7 +36,7 @@ export class DbUtilities {
             await dbClient.connect();
             const database = dbClient.db(process.env.MONGO_DBNAME);
             const collection = database.collection(factory.collectionName);
-            const data = await collection.findOne<T>({ id: id });
+            const data = await collection.findOne<T>({ id });
             if (!data) {
                 throw new ObjectNotFoundError(
                     "Error getting object with id " + id + "."
